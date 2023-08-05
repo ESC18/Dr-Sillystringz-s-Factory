@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-
-namespace Dr_Sillystringzs_Factory.Models
+﻿namespace Dr_Sillystringzs_Factory.Models
 {
     public class Engineer
     {
-        public int Id { get; set; }
+        public int EngineerId { get; set; }
+
         public string Name { get; set; }
-        public string LicenseNumber { get; set; }
+        public string Specialty { get; set; }
         public ICollection<EngineerMachine> EngineerMachines { get; set; }
     }
 }
+
