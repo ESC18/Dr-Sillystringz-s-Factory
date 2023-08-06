@@ -5,6 +5,7 @@
         public int MachineId { get; set; }
         public string Name { get; set; }
         public string Manufacturer { get; set; }
+        public string Description { get; set; }
         public DateTime InstallationDate { get; set; }
         public ICollection<EngineerMachine> EngineerMachines { get; set; }
     }

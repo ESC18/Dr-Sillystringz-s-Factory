@@ -3,6 +3,7 @@ using System;
 using Dr_Sillystringz_s_Factory.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dr_Sillystringz_s_Factory.Migrations
 {
     [DbContext(typeof(FactoryDbContext))]
-    partial class FactoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230806233900_UpdateSchema")]
+    partial class UpdateSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,10 +61,6 @@ namespace Dr_Sillystringz_s_Factory.Migrations
                     b.Property<int>("MachineId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("InstallationDate")
                         .HasColumnType("datetime(6)");
