@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+
 #nullable disable
 
 namespace Dr_Sillystringz_s_Factory.Migrations

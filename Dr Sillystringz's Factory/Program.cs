@@ -1,6 +1,10 @@
+using Dr_Sillystringz_s_Factory.Models;
 using Dr_Sillystringzs_Factory.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Dr_Sillystringz_s_Factory
 {
@@ -25,33 +29,29 @@ namespace Dr_Sillystringz_s_Factory
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureServices((hostContext, services) =>
+                    {
+                        // Add the required services for controllers
+                        services.AddControllers();
+
+                        // Add the DbContext to the service collection
+                        services.AddDbContext<FactoryDbContext>(options =>
+                        {
+                            IConfiguration configuration = hostContext.Configuration;
+                            string connectionString = configuration.GetConnectionString("DefaultConnection");
+                            options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 26)));
+                        });
+                    });
+
                     webBuilder.Configure(app =>
                     {
                         app.UseRouting();
                         app.UseEndpoints(endpoints =>
                         {
+                            // Map the controllers
                             endpoints.MapControllers();
                         });
                     });
-                })
-                .ConfigureAppConfiguration((hostingContext, config) =>
-                {
-                    config.SetBasePath(Directory.GetCurrentDirectory());
-                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                })
-                .ConfigureServices((hostContext, services) =>
-                {
-                    var configuration = new ConfigurationBuilder()
-                        .SetBasePath(hostContext.HostingEnvironment.ContentRootPath)
-                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                        .Build();
-
-                    services.AddDbContext<FactoryDbContext>(options =>
-                    {
-                        string connectionString = configuration.GetConnectionString("DefaultConnection");
-                        options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 26)));
-                    });
-
                 });
     }
 }

@@ -1,5 +1,34 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<Machine>
+@using Dr_Sillystringz_s_Factory.Models  
+@using System.Collections.Generic      
+
+
+<h1>Machines</h1>
+<p>
+    <a asp-action="Create">Create New Machine</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Manufacturer</th>
+            <th>Installation Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var machine in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => machine.Name)</td>
+                <td>@Html.DisplayFor(modelItem => machine.Manufacturer)</td>
+                <td>@Html.DisplayFor(modelItem => machine.InstallationDate)</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@machine.MachineId">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@machine.MachineId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@machine.MachineId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

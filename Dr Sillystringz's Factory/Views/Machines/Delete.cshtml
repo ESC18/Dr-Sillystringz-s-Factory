@@ -1,5 +1,14 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Dr_Sillystringz_s_Factory.Models;
+@model Machine
+
+<h1>Delete Machine</h1>
+<h4>Are you sure you want to delete this machine?</h4>
+<div>
+    <h4>Name: @Html.DisplayFor(model => model.Name)</h4>
+    <h4>Manufacturer: @Html.DisplayFor(model => model.Manufacturer)</h4>
+    <h4>Installation Date: @Html.DisplayFor(model => model.InstallationDate)</h4>
+</div>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="MachineId" />
+    <input type="submit" value="Delete" class="btn btn-danger" /> | <a asp-action="Index">Back to List</a>
+</form>

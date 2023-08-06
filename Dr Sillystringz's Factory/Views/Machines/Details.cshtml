@@ -1,5 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Dr_Sillystringz_s_Factory.Models;
+@model Machine
+
+<h1>Machine Details</h1>
+<div>
+    <h4>Name: @Html.DisplayFor(model => model.Name)</h4>
+    <h4>Manufacturer: @Html.DisplayFor(model => model.Manufacturer)</h4>
+    <h4>Installation Date: @Html.DisplayFor(model => model.InstallationDate)</h4>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.MachineId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

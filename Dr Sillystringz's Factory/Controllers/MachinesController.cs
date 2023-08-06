@@ -1,57 +1,112 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 using Dr_Sillystringz_s_Factory.Models;
-using Dr_Sillystringzs_Factory.Models;
+using System.Linq;
 
-namespace Dr_Sillystringz_s_Factory.Controllers
+
+public class MachinesController : Controller
 {
-    public class MachinesController : Controller
+    private readonly FactoryDbContext _context;
+
+    public MachinesController(FactoryDbContext context)
     {
-        private readonly FactoryDbContext _context;
+        _context = context;
+    }
 
-        public MachinesController(FactoryDbContext context)
+    public IActionResult Index()
+    {
+        var machines = _context.Machines.ToList();
+        return View(machines);
+    }
+
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(Machine machine)
+    {
+        if (ModelState.IsValid)
         {
-            _context = context;
+            _context.Machines.Add(machine);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        return View(machine);
+    }
+
+    public IActionResult Edit(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
         }
 
-        // GET: Machines
-        public async Task<IActionResult> Index()
+        var machine = _context.Machines.Find(id);
+        if (machine == null)
         {
-            var machines = await _context.Machines.ToListAsync();
-            return View(machines);
+            return NotFound();
+        }
+        return View(machine);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(int id, Machine machine)
+    {
+        if (id != machine.MachineId)
+        {
+            return NotFound();
         }
 
-        // GET: Machines/Create
-        public IActionResult Create()
+        if (ModelState.IsValid)
         {
-            return View();
+            _context.Update(machine);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        return View(machine);
+    }
+
+    public IActionResult Details(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
         }
 
-        // POST: Machines/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MachineId,Name,Manufacturer,InstallationDate")] Machine machine)
+        var machine = _context.Machines.Find(id);
+        if (machine == null)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(machine);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(machine);
+            return NotFound();
+        }
+        return View(machine);
+    }
+
+    public IActionResult Delete(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
         }
 
-        // GET: Machines/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        var machine = _context.Machines.Find(id);
+        if (machine == null)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            return NotFound();
+        }
+        return View(machine);
+    }
 
-            var machine = await _context.Machines.FindAsync(id);
-            if (machine == null)
-            {
-                return
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public IActionResult DeleteConfirmed(int id)
+    {
+        var machine = _context.Machines.Find(id);
+        _context.Machines.Remove(machine);
+        _context.SaveChanges();
+        return RedirectToAction(nameof(Index));
+    }
+}
