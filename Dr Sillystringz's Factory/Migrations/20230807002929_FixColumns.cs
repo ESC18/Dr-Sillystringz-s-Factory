@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-
 
 #nullable disable
 
 namespace Dr_Sillystringz_s_Factory.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class FixColumns : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,16 +19,16 @@ namespace Dr_Sillystringz_s_Factory.Migrations
                 name: "Engineers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    EngineerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LicenseNumber = table.Column<string>(type: "longtext", nullable: false)
+                    Specialty = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Engineers", x => x.Id);
+                    table.PrimaryKey("PK_Engineers", x => x.EngineerId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -36,16 +36,17 @@ namespace Dr_Sillystringz_s_Factory.Migrations
                 name: "Machines",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    MachineId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    Manufacturer = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    InstallationDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Machines", x => x.Id);
+                    table.PrimaryKey("PK_Machines", x => x.MachineId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -63,13 +64,13 @@ namespace Dr_Sillystringz_s_Factory.Migrations
                         name: "FK_EngineerMachines_Engineers_EngineerId",
                         column: x => x.EngineerId,
                         principalTable: "Engineers",
-                        principalColumn: "Id",
+                        principalColumn: "EngineerId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EngineerMachines_Machines_MachineId",
                         column: x => x.MachineId,
                         principalTable: "Machines",
-                        principalColumn: "Id",
+                        principalColumn: "MachineId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");

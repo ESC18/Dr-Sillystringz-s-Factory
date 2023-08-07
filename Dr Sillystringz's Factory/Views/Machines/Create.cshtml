@@ -1,32 +1,24 @@
 ﻿@using Dr_Sillystringz_s_Factory.Models;
-@model List<Machine>
+@model Machine
 
-<h1>Machines</h1>
-<p>
-    <a asp-action="Create">Create New Machine</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Manufacturer</th>
-            <th>Installation Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var machine in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => machine.Name)</td>
-                <td>@Html.DisplayFor(modelItem => machine.Manufacturer)</td>
-                <td>@Html.DisplayFor(modelItem => machine.InstallationDate)</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@machine.MachineId">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@machine.MachineId">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@machine.MachineId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<h1>Create Machine</h1>
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Manufacturer" class="control-label"></label>
+        <input asp-for="Manufacturer" class="form-control" />
+        <span asp-validation-for="Manufacturer" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="InstallationDate" class="control-label"></label>
+        <input asp-for="InstallationDate" class="form-control" />
+        <span asp-validation-for="InstallationDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>

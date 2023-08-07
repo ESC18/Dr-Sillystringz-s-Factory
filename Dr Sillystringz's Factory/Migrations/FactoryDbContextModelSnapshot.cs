@@ -59,11 +59,7 @@ namespace Dr_Sillystringz_s_Factory.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("InstallationDate")
+                    b.Property<DateTime?>("InstallationDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Manufacturer")

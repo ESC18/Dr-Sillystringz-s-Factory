@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dr_Sillystringz_s_Factory.Migrations
 {
     [DbContext(typeof(FactoryDbContext))]
-    [Migration("20230806233900_UpdateSchema")]
-    partial class UpdateSchema
+    [Migration("20230807002929_FixColumns")]
+    partial class FixColumns
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,7 +62,7 @@ namespace Dr_Sillystringz_s_Factory.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("InstallationDate")
+                    b.Property<DateTime?>("InstallationDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Manufacturer")

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Dr_Sillystringz_s_Factory.Models;
 using System.Linq;
 
-
 public class MachinesController : Controller
 {
     private readonly FactoryDbContext _context;
