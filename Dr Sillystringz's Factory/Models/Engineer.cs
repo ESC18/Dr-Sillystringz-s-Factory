@@ -12,7 +12,7 @@ namespace Dr_Sillystringz_s_Factory.Models
 
         [Required(ErrorMessage = "Specialty is required.")]
         public string Specialty { get; set; }
-
+    
         public ICollection<EngineerMachine> EngineerMachines { get; set; }
     }
 }
