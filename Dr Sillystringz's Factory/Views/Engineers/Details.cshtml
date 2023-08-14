@@ -5,6 +5,14 @@
 <div>
     <h4>Name: @Html.DisplayFor(model => model.Name)</h4>
     <h4>Specialty: @Html.DisplayFor(model => model.Specialty)</h4>
+    <h4>Associated Machines:</h4>
+    <ul>
+        @foreach (var machine in Model.EngineerMachines)
+        {
+            <li>@machine.Machine.Name</li>
+        }
+    </ul>
+
 </div>
 <p>
     <a asp-action="Edit" asp-route-id="@Model.EngineerId">Edit</a> |

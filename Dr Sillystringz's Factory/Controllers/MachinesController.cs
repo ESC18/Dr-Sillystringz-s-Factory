@@ -57,11 +57,14 @@ public class MachinesController : Controller
     public IActionResult Details(int? id)
     {
 
-
-        var machine = _context.Machines.Find(id);
+        var machine = _context.Machines
+            .Include(m => m.EngineerMachines)
+            .ThenInclude(em => em.Engineer)
+            .FirstOrDefault(m => m.MachineId == id);
 
         return View(machine);
     }
+
 
     public IActionResult Delete(int? id)
     {

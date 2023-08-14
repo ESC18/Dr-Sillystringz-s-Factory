@@ -6,6 +6,14 @@
     <h4>Name: @Html.DisplayFor(model => model.Name)</h4>
     <h4>Manufacturer: @Html.DisplayFor(model => model.Manufacturer)</h4>
     <h4>Installation Date: @Html.DisplayFor(model => model.InstallationDate)</h4>
+    <h4>Associated Engineers:</h4>
+    <ul>
+        @foreach (var engineer in Model.EngineerMachines)
+        {
+            <li>@engineer.Engineer.Name</li>
+        }
+    </ul>
+
 </div>
 <p>
     <a asp-action="Edit" asp-route-id="@Model.MachineId">Edit</a> |

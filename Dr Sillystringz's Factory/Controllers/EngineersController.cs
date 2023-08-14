@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Dr_Sillystringz_s_Factory.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+
 
 public class EngineersController : Controller
 {
@@ -12,72 +16,52 @@ public class EngineersController : Controller
         _context = context;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var engineers = _context.Engineers.ToList();
+        var engineers = await _context.Engineers.ToListAsync();
         return View(engineers);
     }
 
     public IActionResult Create()
     {
+        ViewBag.MachineItems = _context.Machines.Select(m => new SelectListItem
+        {
+            Text = m.Name,
+            Value = m.MachineId.ToString()
+        }).ToList();
+
         return View();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(Engineer engineer)
+    public async Task<IActionResult> Create(Engineer engineer)
     {
+            engineer.EngineerMachines = engineer.SelectedMachineIds
+                .Select(machineId => new EngineerMachine
+                {
+                    MachineId = machineId
+                }).ToList();
 
-        _context.Engineers.Add(engineer);
-        _context.SaveChanges();
-        return RedirectToAction(nameof(Index));
-
-    }
-
-    public IActionResult Edit(int? id)
-    {
-
-
-        var engineer = _context.Engineers.Find(id);
-        return View(engineer);
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Edit(int id, Engineer engineer)
-    {
-
-
-        _context.Update(engineer);
-        _context.SaveChanges();
-        return RedirectToAction(nameof(Index));
-
+            _context.Engineers.Add(engineer);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
     }
 
     public IActionResult Details(int? id)
     {
 
-
-        var engineer = _context.Engineers.Find(id);
-        return View(engineer);
-    }
-
-    public IActionResult Delete(int? id)
-    {
-
-
-        var engineer = _context.Engineers.Find(id);
+        var engineer = _context.Engineers
+            .Include(e => e.EngineerMachines)
+            .ThenInclude(em => em.Machine)
+            .FirstOrDefault(e => e.EngineerId == id);
 
         return View(engineer);
     }
 
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public IActionResult DeleteConfirmed(int id)
+
+    private bool EngineerExists(int id)
     {
-        var engineer = _context.Engineers.Find(id);
-        _context.Engineers.Remove(engineer);
-        _context.SaveChanges();
-        return RedirectToAction(nameof(Index));
+        return _context.Engineers.Any(e => e.EngineerId == id);
     }
 }
